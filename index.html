@@ -1,19 +1,277 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sandbox Walkthrough v1</title>
-  </head>
-  <body id="top">
-    <!--
-    PAGE MAP (Sandbox Walkthrough)
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acme Weekly Staff Meeting Agenda</title>
+    <style>
+      :root {
+        --bg: #f3f5f8;
+        --surface: #ffffff;
+        --surface-alt: #f8fafc;
+        --text: #172033;
+        --muted: #5c667a;
+        --border: #d7deea;
+        --header: #eaf0f8;
+        --accent: #234a7a;
+      }
 
-    Current anchors:
-    Top/Home: #top
-    -->
-    <h1>Sandbox Walkthrough v2 (NOT MERGED)</h1>
-    <p>If you see this, you're not on main.</p>
-    <p>Today is 2026-02-10, and this page is the walkthrough landing page.</p>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #eef2f7 0%, var(--bg) 100%);
+        color: var(--text);
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.45;
+        padding: 2rem 1rem;
+      }
+
+      main {
+        max-width: 1150px;
+        margin: 0 auto;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: 0 10px 28px rgba(19, 36, 61, 0.08);
+        overflow: hidden;
+      }
+
+      .agenda-header {
+        padding: 2rem 2rem 1.4rem;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, #ffffff 0%, #f9fbfe 100%);
+      }
+
+      .agenda-header h1 {
+        margin: 0;
+        color: var(--accent);
+        font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+
+      .attendees {
+        margin-top: 0.85rem;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .attendees strong {
+        color: var(--text);
+        margin-right: 0.35rem;
+      }
+
+      .table-wrap {
+        padding: 1.3rem 1.25rem 1.5rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      col.time { width: 11%; }
+      col.topic { width: 36%; }
+      col.lead { width: 17%; }
+      col.ask { width: 24%; }
+      col.notes { width: 12%; }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        text-align: left;
+        vertical-align: top;
+        padding: 0.85rem 0.8rem;
+      }
+
+      th {
+        background: var(--header);
+        color: #233247;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.015em;
+      }
+
+      td {
+        font-size: 0.94rem;
+      }
+
+      .minutes {
+        font-weight: 700;
+        color: #1f2d40;
+      }
+
+      .topic-main {
+        display: block;
+        font-weight: 600;
+        color: #1b2a3d;
+      }
+
+      .topic-sub {
+        display: block;
+        margin-top: 0.25rem;
+        color: var(--muted);
+        font-size: 0.87rem;
+      }
+
+      .notes-blank {
+        color: #9aa4b2;
+      }
+
+      @media (max-width: 840px) {
+        body {
+          padding: 1rem 0.6rem;
+        }
+
+        .agenda-header,
+        .table-wrap {
+          padding-left: 0.8rem;
+          padding-right: 0.8rem;
+        }
+
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+
+        thead {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+
+        tr {
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          background: var(--surface-alt);
+          margin-bottom: 0.75rem;
+          overflow: hidden;
+        }
+
+        td {
+          border: none;
+          border-bottom: 1px solid var(--border);
+          padding: 0.72rem 0.75rem;
+        }
+
+        td:last-child {
+          border-bottom: none;
+        }
+
+        td::before {
+          content: attr(data-label);
+          display: block;
+          font-size: 0.74rem;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+          color: #4f6178;
+          font-weight: 700;
+          margin-bottom: 0.22rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="agenda-header">
+        <h1>Acme Weekly Staff Meeting, 10:00 am, Tuesday, April 28th, 2026</h1>
+        <p class="attendees">
+          <strong>Attendees:</strong>
+          Bob, John, Amy, Sam, Trina, Mike, Rick
+        </p>
+      </header>
+
+      <section class="table-wrap" aria-label="Meeting agenda table">
+        <table>
+          <colgroup>
+            <col class="time" />
+            <col class="topic" />
+            <col class="lead" />
+            <col class="ask" />
+            <col class="notes" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">Time/Minutes</th>
+              <th scope="col">Topic</th>
+              <th scope="col">Lead</th>
+              <th scope="col">Ask/Decision(s)</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="minutes" data-label="Time/Minutes">05</td>
+              <td data-label="Topic">
+                <span class="topic-main">Opening Comments and Agenda</span>
+              </td>
+              <td data-label="Lead">Rick</td>
+              <td data-label="Ask/Decision(s)">Agreement on Agenda Items</td>
+              <td class="notes-blank" data-label="Notes">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="minutes" data-label="Time/Minutes">45</td>
+              <td data-label="Topic">
+                <span class="topic-main">Key Takeaways from Board Meeting</span>
+                <span class="topic-sub">What are expectations based on what we reported?</span>
+              </td>
+              <td data-label="Lead">Bob</td>
+              <td data-label="Ask/Decision(s)">
+                Consensus on what we understand to be the Board’s expectations
+              </td>
+              <td class="notes-blank" data-label="Notes">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="minutes" data-label="Time/Minutes">45</td>
+              <td data-label="Topic">
+                <span class="topic-main">Hard Realities and Decisions</span>
+                <span class="topic-sub">We need to consider the cost side of the equation</span>
+              </td>
+              <td data-label="Lead">John and Trina</td>
+              <td data-label="Ask/Decision(s)">
+                Commitment on next steps to identify cost contingencies
+              </td>
+              <td class="notes-blank" data-label="Notes">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="minutes" data-label="Time/Minutes">15</td>
+              <td data-label="Topic">
+                <span class="topic-main">Strategic Planning Session (if there is time)</span>
+                <span class="topic-sub">Status of prework and state of readiness</span>
+              </td>
+              <td data-label="Lead">Mike</td>
+              <td data-label="Ask/Decision(s)">
+                Clarify how we will know when we’re ready
+              </td>
+              <td class="notes-blank" data-label="Notes">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="minutes" data-label="Time/Minutes">10</td>
+              <td data-label="Topic">
+                <span class="topic-main">Closing Comments and Next Steps</span>
+                <span class="topic-sub">What, who, when</span>
+              </td>
+              <td data-label="Lead">Rick</td>
+              <td data-label="Ask/Decision(s)">Agreement on Action</td>
+              <td class="notes-blank" data-label="Notes">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
   </body>
 </html>
